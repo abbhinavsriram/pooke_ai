@@ -1,4 +1,5 @@
 'use client'
+import AgentChat from '@/components/agent_chat';
 import Editor from '../components/monaco_editor';
 import React, { useState } from 'react';
 
@@ -34,6 +35,7 @@ export default function HomePage() {
         value={code}
         onChange={value => setCode(value || '')}
       />
+      <AgentChat />
     </div>
   );
 }

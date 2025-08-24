@@ -1,10 +1,8 @@
-// pooke AI
-
 'use client'
 import Editor from '../../components/monaco_editor';
 import React, { useState } from 'react';
-import { runCodeWithPiston } from '../../lib/piston';
-import { version } from 'os';
+import AgentChat from '@/components/agent_chat';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const languages = [
   { label: 'Java', value: ['java', '// enter your code here'] },
@@ -14,8 +12,6 @@ const languages = [
   { label: 'C', value: ['c', '// enter your code here'] },
 ];
 
-
-// Map Monaco language IDs to Piston language names
 const pistonLanguageMap: Record<string, [string, string]> = {
   python: ['python3', "3.10.0"],
   java: ['java', "15.0.2"],
@@ -24,18 +20,17 @@ const pistonLanguageMap: Record<string, [string, string]> = {
   c: ['c', "10.2.0"],
 };
 
-
 export default function EditorPage() {
   const [language, setLanguage] = useState('python');
   const [code, setCode] = useState('# enter your code here');
   const [output, setOutput] = useState('');
-
 
   const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selected = languages.find(lang => lang.value[0] === e.target.value);
     setLanguage(selected?.value[0] || 'python');
     setCode(selected?.value[1] || '');
   };
+
   const runCode = async () => {
     setOutput('Running...');
     const langInfo = pistonLanguageMap[language];
@@ -62,28 +57,34 @@ export default function EditorPage() {
   };
 
   return (
-    <div style={{ width: "50vw" }}>
-      <label>
-        Language:
-        <select value={language} onChange={handleLanguageChange}>
-          {languages.map(lang => (
-            <option key={lang.value[0]} value={lang.value[0]}>{lang.label}</option>
-          ))}
-        </select>
-      </label>
-      <Editor
-        height="70vh"
-        language={language}
-        value={code}
-        onChange={value => setCode(value || '')}
-      />
-      <button onClick={runCode} style={{ marginTop: 12 }}>Run Code</button>
-      <div style={{ marginTop: 16, background: '#222', color: '#fff', padding: 12, borderRadius: 4, minHeight: 60 }}>
-        <strong>Output:</strong>
-        <pre style={{ whiteSpace: 'pre-wrap' }}>{output}</pre>
-      </div>
+    <div className="flex flex-col md:flex-row gap-8 w-full justify-center items-start">
+      <Card className="w-full max-w-2xl">
+        <CardHeader>
+          <CardTitle>Code Editor</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <label>
+            Language:
+            <select value={language} onChange={handleLanguageChange} className="ml-2">
+              {languages.map(lang => (
+                <option key={lang.value[0]} value={lang.value[0]}>{lang.label}</option>
+              ))}
+            </select>
+          </label>
+          <Editor
+            height="50vh"
+            language={language}
+            value={code}
+            onChange={value => setCode(value || '')}
+          />
+          <button onClick={runCode} style={{ marginTop: 12 }}>Run Code</button>
+          <div style={{ marginTop: 16, background: '#222', color: '#fff', padding: 12, borderRadius: 4, minHeight: 60 }}>
+            <strong>Output:</strong>
+            <pre style={{ whiteSpace: 'pre-wrap' }}>{output}</pre>
+          </div>
+        </CardContent>
+      </Card>
+      <AgentChat />
     </div>
   );
 }
-
-
