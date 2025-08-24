@@ -38,17 +38,26 @@ export default function EditorPage() {
   };
   const runCode = async () => {
     setOutput('Running...');
+    const langInfo = pistonLanguageMap[language];
     try {
-      const pistonOptions = {
-        language: pistonLanguageMap[language][0],
-        version: pistonLanguageMap[language][1],
-        files: [{ content: code }],
-      };
-      const data = await runCodeWithPiston(pistonOptions);
+      const res = await fetch('http://localhost:8000/run', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          language: langInfo[0],
+          version: langInfo[1],
+          code,
+        }),
+      });
+      if (!res.ok) {
+        const error = await res.text();
+        setOutput('Error: ' + error);
+        return;
+      }
+      const data = await res.json();
       setOutput(data.run?.output || data.run?.stdout || data.run?.stderr || 'No output');
     } catch (err) {
-      console.log(err)
-      setOutput('Error running code.');
+      setOutput('Error connecting to backend.');
     }
   };
 
