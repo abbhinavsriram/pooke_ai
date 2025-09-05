@@ -1,8 +1,19 @@
 'use client';
-import Editor from '../../components/monaco_editor';
+import dynamic from 'next/dynamic';
+const Editor = dynamic(() => import('../../components/monaco_editor'), { ssr: false });
 import React, { useState } from 'react';
 import AgentChat from '@/components/agent_chat';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import Link from 'next/link';
+
 
 const languages = [
   { label: 'Java', value: ['java', '// enter your code here'] },
@@ -57,34 +68,53 @@ export default function EditorPage() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row w-full h-screen items-start">
-      <Card className=' w-[55%]'>
-        <CardHeader>
-          <CardTitle>Code Editor</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <label>
-            Language:
-            <select value={language} onChange={handleLanguageChange} className="ml-2">
-              {languages.map(lang => (
-                <option key={lang.value[0]} value={lang.value[0]}>{lang.label}</option>
-              ))}
-            </select>
-          </label>
-          <Editor
-            height="65vh"
-            language={language}
-            value={code}
-            onChange={value => setCode(value || '')}
-          />
-          <button onClick={runCode} style={{ marginTop: 12 }}>Run Code</button>
-          <div style={{ marginTop: 16, background: '#222', color: '#fff', padding: 12, borderRadius: 4, minHeight: 60 }}>
-            <strong>Output:</strong>
-            <pre style={{ whiteSpace: 'pre-wrap' }}>{output}</pre>
-          </div>
-        </CardContent>
-      </Card>
-      <AgentChat />
+    <div className='w-screen h-screen'>
+
+      <Breadcrumb className='m-2'>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link href="/">Home</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link href="/editor">Editor</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+
+      <div className="flex flex-col md:flex-row w-full h-full items-start">
+        <Card className=' w-[55%]'>
+          <CardHeader>
+            <CardTitle>Code Editor</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <label>
+              Language:
+              <select value={language} onChange={handleLanguageChange} className="ml-2">
+                {languages.map(lang => (
+                  <option key={lang.value[0]} value={lang.value[0]}>{lang.label}</option>
+                ))}
+              </select>
+            </label>
+            <Editor
+              height="65vh"
+              language={language}
+              value={code}
+              onChange={value => setCode(value || '')}
+            />
+            <button onClick={runCode} style={{ marginTop: 12 }}>Run Code</button>
+            <div style={{ marginTop: 16, background: '#222', color: '#fff', padding: 12, borderRadius: 4, minHeight: 60 }}>
+              <strong>Output:</strong>
+              <pre style={{ whiteSpace: 'pre-wrap' }}>{output}</pre>
+            </div>
+          </CardContent>
+        </Card>
+        <AgentChat />
+      </div>
     </div>
   );
 }

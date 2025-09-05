@@ -52,7 +52,7 @@ export default function AgentChat() {
             <CardTitle className="text-white">Agent Chat</CardTitle>
           </CardHeader>
           <CardContent className="bg-neutral-800 h-full">
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 h-[70vh] overflow-y-auto">
               {messages.map((msg, idx) => (
                 <div
                   key={idx}
