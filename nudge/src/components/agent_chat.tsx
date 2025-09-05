@@ -41,7 +41,7 @@ export default function AgentChat() {
   };
 
   return (
-    <Tabs defaultValue="chat" className="flex w-[45%] h-screen">
+    <Tabs defaultValue="chat" className="flex w-[45%] h-[95%]">
       <TabsList>
         <TabsTrigger value="chat">Chat</TabsTrigger>
         <TabsTrigger value="analysis">Analysis</TabsTrigger>
@@ -52,7 +52,7 @@ export default function AgentChat() {
             <CardTitle className="text-white">Agent Chat</CardTitle>
           </CardHeader>
           <CardContent className="bg-neutral-800 h-full">
-            <div className="flex flex-col gap-2 h-[70vh] overflow-y-auto">
+            <div className="flex flex-col gap-2 h-full overflow-y-auto">
               {messages.map((msg, idx) => (
                 <div
                   key={idx}
