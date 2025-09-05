@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import Editor from '../../components/monaco_editor';
 import React, { useState } from 'react';
 import AgentChat from '@/components/agent_chat';
@@ -58,7 +58,7 @@ export default function EditorPage() {
 
   return (
     <div className="flex flex-col md:flex-row w-full h-screen items-start">
-      <Card className='h-full'>
+      <Card className=' w-[55%]'>
         <CardHeader>
           <CardTitle>Code Editor</CardTitle>
         </CardHeader>
