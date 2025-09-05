@@ -42,11 +42,11 @@ export default function AgentChat() {
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto flex flex-col h-[500px]">
+    <Card className=" bg-neutral-800 h-screen">
       <CardHeader>
-        <CardTitle>Agent Chat</CardTitle>
+        <CardTitle className="text-white">Agent Chat</CardTitle>
       </CardHeader>
-      <CardContent className="flex-1 flex flex-col overflow-y-auto mb-2 bg-muted rounded p-2">
+      <CardContent className=" bg-neutral-800 h-full">
         <div className="flex flex-col gap-2">
           {messages.map((msg, idx) => (
             <div
@@ -56,8 +56,8 @@ export default function AgentChat() {
               <div
                 className={`px-3 py-2 rounded-lg max-w-[80%] ${
                   msg.sender === "user"
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-200 text-gray-900"
+                    ? "bg-slate-600 text-white"
+                    : "bg-stone-600 text-white"
                 }`}
               >
                 {msg.text}
@@ -67,8 +67,9 @@ export default function AgentChat() {
           <div ref={messagesEndRef} />
         </div>
       </CardContent>
-      <div className="flex gap-2 p-2 border-t">
+      <div className="flex gap-2 p-2">
         <Input
+          className="text-white placeholder-gray-400 bg-neutral-700"
           placeholder="Type your message..."
           value={chatInput}
           onChange={e => setChatInput(e.target.value)}

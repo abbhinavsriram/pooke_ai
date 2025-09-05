@@ -57,8 +57,8 @@ export default function EditorPage() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row gap-8 w-full justify-center items-start">
-      <Card className="w-full max-w-2xl">
+    <div className="flex flex-col md:flex-row w-full h-screen items-start">
+      <Card className='h-full'>
         <CardHeader>
           <CardTitle>Code Editor</CardTitle>
         </CardHeader>
@@ -72,7 +72,7 @@ export default function EditorPage() {
             </select>
           </label>
           <Editor
-            height="50vh"
+            height="65vh"
             language={language}
             value={code}
             onChange={value => setCode(value || '')}
