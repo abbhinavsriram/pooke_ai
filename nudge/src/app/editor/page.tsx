@@ -1,6 +1,5 @@
 'use client';
-import dynamic from 'next/dynamic';
-const Editor = dynamic(() => import('../../components/monaco_editor'), { ssr: false });
+import CodeMirror from '@uiw/react-codemirror';
 import React, { useState } from 'react';
 import AgentChat from '@/components/agent_chat';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,8 +12,10 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import Link from 'next/link';
-
-
+import { javascript } from '@codemirror/lang-javascript';
+import { python } from '@codemirror/lang-python';
+import { java } from '@codemirror/lang-java';
+import { cpp } from '@codemirror/lang-cpp';
 const languages = [
   { label: 'Java', value: ['java', '// enter your code here'] },
   { label: 'Python', value: ['python', '# enter your code here'] },
@@ -100,11 +101,19 @@ export default function EditorPage() {
                 ))}
               </select>
             </label>
-            <Editor
+            <CodeMirror
+              theme="dark"
               height="65vh"
-              language={language}
+              extensions={[
+                language === 'python' ? python() :
+                language === 'javascript' ? javascript() :
+                language === 'java' ? java() : // Add Java extension if available
+                language === 'c' ? cpp() :    // Add C extension if available
+                language === 'cpp' ? cpp() :  // Add C++ extension if available
+                []
+              ]}
               value={code}
-              onChange={value => setCode(value || '')}
+              onChange={(value) => setCode(value)}
             />
             <button onClick={runCode} style={{ marginTop: 12 }}>Run Code</button>
             <div style={{ marginTop: 16, background: '#222', color: '#fff', padding: 12, borderRadius: 4, minHeight: 60 }}>
